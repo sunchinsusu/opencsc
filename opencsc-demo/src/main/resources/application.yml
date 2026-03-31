@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+opencsc:
+  # CSC Resource Server base URL
+  base-url: "https://signing-server-domain.com"
+
+  # Authorization Server URL (set if different from base-url)
+  # auth-server-url: "https://authorization-server-domain.com"
+
+  connect-timeout: 10s
+  read-timeout: 60s
+
+  oauth2:
+    token-path: "/oauth2/token"
+    client-id: "clientid"
+    client-secret: "clientsecret"
+    scope: "service"
+    token-expiry-skew: 30
+    refresh-check-interval: 30000
+
+
+  credentials:
+    list-path: "/csc/v2/credentials/list"
+    info-path: "/csc/v2/credentials/info"
+    authorize-path: "/csc/v2/credentials/authorize"
+    get-challenge-path: "/csc/v2/credentials/getChallenge"
+
+  signatures:
+    sign-hash-path: "/csc/v2/signatures/signHash"
+
+  retry:
+    enabled: true
+    max-attempts: 3
+    wait-duration: 500ms
+
+  circuit-breaker:
+    enabled: true
+    failure-rate-threshold: 50
+    sliding-window-size: 10
+    wait-duration-in-open-state: 30s
+
+  pdf:
+    enabled: true
+    default-hash-algorithm: "2.16.840.1.101.3.4.2.1"
+    signature-reserved-space-bytes: 32768
+    default-reason: "Digitally signed"
+
+logging:
+  level:
+    com.icebrown.opencsc: DEBUG

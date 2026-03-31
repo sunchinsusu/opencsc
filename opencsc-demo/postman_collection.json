@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "OpenCSC Demo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "credentialID",
+      "value": "my-credential-id-123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "List Credentials",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/credentials?userID=user123",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "credentials"],
+          "query": [
+            {
+              "key": "userID",
+              "value": "user123",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Credential Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/credentials/{{credentialID}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "credentials", "{{credentialID}}"]
+        }
+      }
+    },
+    {
+      "name": "Sign Hash",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"credentialID\": \"{{credentialID}}\",\n  \"hashes\": [\n    \"aGVsbG8gd29ybGQ=\",\n    \"dGVzdGhhc2g=\"\n  ],\n  \"hashAlgorithmOID\": \"2.16.840.1.101.3.4.2.1\",\n  \"signAlgo\": \"1.2.840.113549.1.1.11\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/sign-hash",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "sign-hash"]
+        }
+      }
+    },
+    {
+      "name": "Sign PDF",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/path/to/document.pdf"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/sign-pdf?credentialID={{credentialID}}&signAlgo=1.2.840.113549.1.1.11&reason=Digitally signed&location=Ha Noi",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "sign-pdf"],
+          "query": [
+            {
+              "key": "credentialID",
+              "value": "{{credentialID}}"
+            },
+            {
+              "key": "signAlgo",
+              "value": "1.2.840.113549.1.1.11",
+              "disabled": true
+            },
+            {
+              "key": "reason",
+              "value": "Digitally signed",
+              "disabled": true
+            },
+            {
+              "key": "location",
+              "value": "Ha Noi",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
