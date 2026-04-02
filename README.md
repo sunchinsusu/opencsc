@@ -28,7 +28,7 @@ A Spring Boot library that provides a client for **Cloud Signature Consortium (C
 <dependency>
     <groupId>com.icebrown.opencsc</groupId>
     <artifactId>opencsc</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 
 <!-- For PDF signing, also add: -->
@@ -65,8 +65,16 @@ Required when your credential uses explicit authorization (PIN/OTP):
 ```java
 @Bean
 public AuthDataProvider authDataProvider() {
-    return (credentialId, requiredObjects, correlationId) -> {
-        // Return the required auth objects (PIN, OTP, etc.)
+    return context -> {
+        // context contains all signing context:
+        // context.getCredentialId()      — credential being authorized
+        // context.getRequiredObjects()   — auth types required by the credential (PIN, OTP, etc.)
+        // context.getCorrelationId()     — correlation ID for tracing
+        // context.getHashes()            — hashes to be signed
+        // context.getHashAlgorithmOID()  — hash algorithm OID
+        // context.getSignAlgo()          — signature algorithm OID
+        // context.getClientData()        — optional client data
+
         return List.of(new AuthObject("PIN", "123456"));
     };
 }

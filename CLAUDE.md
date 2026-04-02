@@ -75,5 +75,5 @@ Configure the demo in `opencsc-demo/src/main/resources/application.yml` before r
 
 ## SPI Extension Points
 
-- `AuthDataProvider` — implement and register as `@Bean` to supply PIN/OTP for explicit-mode credentials
+- `AuthDataProvider` — implement and register as `@Bean` to supply PIN/OTP for explicit-mode credentials. Method receives `AuthDataContext` (contains `credentialId`, `requiredObjects`, `correlationId`, `hashes`, `hashAlgorithmOID`, `signAlgo`, `clientData`)
 - `CscAuditListener` — implement and register as `@Bean` to receive audit events (`TokenAcquiredEvent`, `CredentialAuthorizedEvent`, `HashSignedEvent`, `PdfSignedEvent`, `CscApiErrorEvent`)

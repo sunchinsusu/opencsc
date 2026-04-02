@@ -168,10 +168,22 @@ classDiagram
     %% SPI (Extension Points)
     %% ════════════════════════════════════════════
 
+    class AuthDataContext {
+        -String credentialId
+        -List~AuthObjectType~ requiredObjects
+        -String correlationId
+        -List~String~ hashes
+        -String hashAlgorithmOID
+        -String signAlgo
+        -String clientData
+    }
+
     class AuthDataProvider {
         <<interface>>
-        +provideAuthData(credentialId, requiredObjects, correlationId) List~AuthObject~
+        +provideAuthData(AuthDataContext) List~AuthObject~
     }
+
+    AuthDataProvider ..> AuthDataContext : uses
 
     class CscEvent {
         <<interface>>
